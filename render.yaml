@@ -1,0 +1,37 @@
+# Render Blueprints
+services:
+  # Backend service
+  - type: web
+    name: white-collar-ai-backend
+    env: node
+    plan: starter
+    buildCommand: cd server && npm install
+    startCommand: cd server && node index.js
+    rootDir: server
+    envVars:
+      - key: NODE_VERSION
+        value: 20
+      - key: HF_TOKEN
+        sync: false
+      - key: HF_MODEL
+        value: Qwen/Qwen2.5-7B-Instruct
+      - key: PORT
+        value: 10000
+      - key: CLIENT_URL
+        fromService:
+          type: web
+          name: white-collar-ai-frontend
+          envVarKey: RENDER_EXTERNAL_URL
+
+  # Frontend service
+  - type: web
+    name: white-collar-ai-frontend
+    env: static
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: VITE_API_BASE_URL
+        fromService:
+          type: web
+          name: white-collar-ai-backend
+          envVarKey: RENDER_EXTERNAL_URL

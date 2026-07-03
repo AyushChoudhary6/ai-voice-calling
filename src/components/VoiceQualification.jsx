@@ -7,7 +7,7 @@ import QualificationProgress from './QualificationProgress';
 import AIAnalysis from './AIAnalysis';
 import { calculateLeadScore } from '../utils/calculateLeadScore';
 
-const API_BASE = 'http://localhost:5000/api';
+const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
 
 export default function VoiceQualification() {
   const [sessionState, setSessionState] = useState('IDLE');
