@@ -1,0 +1,191 @@
+@import "tailwindcss";
+
+/* ─── Custom Theme ─── */
+@theme {
+  --color-bg-main: #080D0B;
+  --color-bg-secondary: #0D1512;
+  --color-bg-card: #111B17;
+  --color-bg-elevated: #16221D;
+  --color-luxury-green: #315C4B;
+  --color-muted-emerald: #527A68;
+  --color-champagne: #C5A46D;
+  --color-soft-gold: #E0C28D;
+  --color-text-primary: #F4F1E8;
+  --color-text-secondary: #A9B3AD;
+  --color-text-muted: #68756E;
+  --color-border: rgba(197, 164, 109, 0.15);
+  --color-border-strong: rgba(197, 164, 109, 0.3);
+  --color-success: #5FAD82;
+  --color-warning: #D5A65A;
+  --color-danger: #C86B65;
+  --color-hot: #D4845A;
+  --font-serif: 'Cormorant Garamond', Georgia, serif;
+  --font-sans: 'Inter', system-ui, sans-serif;
+}
+
+/* ─── Base ─── */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  font-family: var(--font-sans);
+  background: var(--color-bg-main);
+  color: var(--color-text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ─── Scrollbar ─── */
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-bg-elevated);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-muted-emerald);
+}
+
+/* ─── Typography ─── */
+.font-serif {
+  font-family: var(--font-serif);
+}
+
+/* ─── Status badges ─── */
+.badge-new {
+  background: rgba(169, 179, 173, 0.12);
+  color: var(--color-text-secondary);
+  border: 1px solid rgba(169, 179, 173, 0.2);
+}
+.badge-hot {
+  background: rgba(212, 132, 90, 0.12);
+  color: #D4845A;
+  border: 1px solid rgba(212, 132, 90, 0.25);
+}
+.badge-warm {
+  background: rgba(197, 164, 109, 0.12);
+  color: var(--color-champagne);
+  border: 1px solid rgba(197, 164, 109, 0.25);
+}
+.badge-cold {
+  background: rgba(104, 117, 110, 0.12);
+  color: var(--color-text-muted);
+  border: 1px solid rgba(104, 117, 110, 0.2);
+}
+
+/* ─── Pulsing dot ─── */
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.3); }
+}
+.pulse-dot {
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
+/* ─── Voice orb ─── */
+@keyframes orb-rotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+@keyframes orb-pulse {
+  0%, 100% { box-shadow: 0 0 20px rgba(197, 164, 109, 0.15), 0 0 60px rgba(49, 92, 75, 0.08); }
+  50% { box-shadow: 0 0 30px rgba(197, 164, 109, 0.25), 0 0 80px rgba(49, 92, 75, 0.15); }
+}
+.voice-orb {
+  animation: orb-pulse 2s ease-in-out infinite;
+}
+.voice-orb-ring {
+  animation: orb-rotate 3s linear infinite;
+}
+
+/* ─── Waveform ─── */
+@keyframes wave {
+  0%, 100% { height: 4px; }
+  50% { height: 20px; }
+}
+.waveform-bar {
+  animation: wave 1s ease-in-out infinite;
+}
+
+/* ─── Scan line ─── */
+@keyframes scan-line {
+  0% { top: 0%; }
+  50% { top: 100%; }
+  100% { top: 0%; }
+}
+.scan-line {
+  animation: scan-line 2s ease-in-out infinite;
+}
+
+/* ─── Fade in ─── */
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in {
+  animation: fade-in 0.5s ease-out forwards;
+}
+
+/* ─── Card hover ─── */
+.card-hover {
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.card-hover:hover {
+  border-color: rgba(197, 164, 109, 0.3);
+  box-shadow: 0 0 20px rgba(197, 164, 109, 0.05);
+}
+
+/* ─── Button hover ─── */
+.btn-hover {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.btn-hover:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+.btn-hover:active {
+  transform: translateY(0);
+}
+
+/* ─── Table row hover ─── */
+.row-hover {
+  transition: background 0.2s ease;
+}
+.row-hover:hover {
+  background: rgba(22, 34, 29, 0.6);
+}
+
+/* ─── Score ring ─── */
+.score-ring {
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
+}
+
+/* ─── Warm glow ─── */
+.warm-glow {
+  box-shadow: 0 0 40px rgba(212, 132, 90, 0.15), 0 0 80px rgba(197, 164, 109, 0.08);
+}
+
+/* ─── Architecture node ─── */
+.arch-node {
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.arch-node:hover {
+  border-color: var(--color-champagne);
+  box-shadow: 0 0 20px rgba(197, 164, 109, 0.1);
+}
+
+/* ─── Mobile drawer overlay ─── */
+.drawer-overlay {
+  background: rgba(8, 13, 11, 0.85);
+  backdrop-filter: blur(4px);
+}
