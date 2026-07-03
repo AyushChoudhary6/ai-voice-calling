@@ -9,12 +9,15 @@ import {
   X,
 } from 'lucide-react';
 
+import { Mic2 } from 'lucide-react';
+
 const navItems = [
-  { icon: LayoutDashboard, label: 'Overview', active: true },
-  { icon: Radio, label: 'Live Operations', active: false },
-  { icon: Brain, label: 'Lead Intelligence', active: false },
-  { icon: History, label: 'Call History', active: false },
-  { icon: BarChart3, label: 'Analytics', active: false },
+  { icon: LayoutDashboard, label: 'Overview' },
+  { icon: Mic2, label: 'Voice Qualification' },
+  { icon: Radio, label: 'Live Operations' },
+  { icon: Brain, label: 'Lead Intelligence' },
+  { icon: History, label: 'Call History' },
+  { icon: BarChart3, label: 'Analytics' },
 ];
 
 export default function Sidebar({ mobileOpen, onMobileClose, activeNav, setActiveNav }) {

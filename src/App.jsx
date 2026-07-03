@@ -10,6 +10,7 @@ import LiveOperations from './components/LiveOperations';
 import LeadIntelligence from './components/LeadIntelligence';
 import CallHistory from './components/CallHistory';
 import Analytics from './components/Analytics';
+import VoiceQualification from './components/VoiceQualification';
 import { leads } from './data/leads';
 
 export default function App() {
@@ -17,6 +18,10 @@ export default function App() {
   const [showArchitecture, setShowArchitecture] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeNav, setActiveNav] = useState('Overview');
+
+  if (activeNav === 'Voice Qualification') {
+    return <VoiceQualification />;
+  }
 
   const renderContent = () => {
     switch (activeNav) {

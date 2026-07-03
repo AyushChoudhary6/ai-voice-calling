@@ -2,8 +2,6 @@
 
 **Interactive Product Prototype**
 
-> Voice calling and CRM actions are simulated for this prototype. AI transcript intelligence is powered by OpenAI.
-
 ---
 
 ## Problem Statement
@@ -27,48 +25,41 @@ This creates repetitive work, inconsistent qualification, and delays in identify
 
 **White Collar AI** is an AI Voice Intelligence system that automates lead qualification through voice conversations.
 
+### Prototype Architecture
+
 ```
-Lead Sources
+User speaks
     ↓
-Supabase / CRM
+Browser SpeechRecognition (Web Speech API)
     ↓
-n8n (Workflow Automation)
+React conversation state
     ↓
-Vapi (Voice Orchestration)
+Express backend
     ↓
-OpenAI (AI Brain)
+Hugging Face Inference
     ↓
-Structured Qualification
+AI generates next question
     ↓
-Explainable Lead Scoring
+Browser SpeechSynthesis (Web Speech API)
     ↓
-CRM Update
+AI speaks
     ↓
-Sales Consultant Dashboard
+Microphone listens again
+    ↻
+After conversation:
+Full transcript → Hugging Face analysis → structured lead data → explainable JS scoring → dashboard result
 ```
 
 ---
 
-## Why Vapi?
+## Prototype vs Production
 
-Vapi is the chosen production voice orchestration layer. It manages real-time voice agent infrastructure including:
-
-- Voice conversation orchestration
-- Transcriber integration
-- LLM integration
-- Text-to-speech integration
-- Conversation events and call lifecycle
-
-This removes the need to build low-level real-time audio infrastructure.
-
-## Why OpenAI?
-
-OpenAI is the AI brain responsible for:
-
-- Understanding multi-turn conversation context
-- Determining the next useful qualification question
-- Extracting structured lead information from the final transcript
-- Generating a call summary and recommending next sales actions
+| Feature                | Prototype                  | Production          |
+|------------------------|----------------------------|---------------------|
+| Voice Interface        | Browser Speech APIs        | Vapi                |
+| AI Brain               | Hugging Face               | OpenAI              |
+| Telephony              | Browser (no real calls)    | Twilio via Vapi     |
+| Scoring Engine         | Live JS engine             | Live JS engine      |
 
 ---
 
@@ -94,20 +85,6 @@ The LLM does **not** decide HOT / WARM / COLD. A deterministic JavaScript scorin
 
 ---
 
-## Prototype vs Production
-
-| Feature                | Prototype          | Production          |
-|------------------------|--------------------|---------------------|
-| Voice Calling          | Simulated UI       | Vapi                |
-| Telephony              | Simulated          | Twilio via Vapi     |
-| CRM                    | Static data        | Supabase            |
-| Workflow Automation    | Simulated          | n8n                 |
-| Transcript Analysis    | OpenAI (optional)  | OpenAI              |
-| Lead Scoring           | Live JS engine     | Live JS engine      |
-| React Dashboard        | Live               | Live                |
-
----
-
 ## Tech Stack
 
 ### Frontend
@@ -116,11 +93,12 @@ The LLM does **not** decide HOT / WARM / COLD. A deterministic JavaScript scorin
 - Tailwind CSS v4
 - GSAP
 - Lucide React
+- Web Speech API (SpeechRecognition, SpeechSynthesis)
 
 ### Backend
 - Node.js
 - Express 5
-- OpenAI Node SDK
+- @huggingface/inference
 - dotenv
 - cors
 
@@ -131,11 +109,12 @@ The LLM does **not** decide HOT / WARM / COLD. A deterministic JavaScript scorin
 ### Prerequisites
 - Node.js 18+
 - npm
+- Google Chrome (for SpeechRecognition support)
 
 ### 1. Clone the project
 
 ```bash
-cd white-collar-ai
+cd api
 ```
 
 ### 2. Install client dependencies
@@ -157,22 +136,25 @@ npm install
 cp .env.example .env
 ```
 
-Edit `server/.env` and add your OpenAI API key:
+Edit `server/.env` and add your Hugging Face token:
 
 ```
-OPENAI_API_KEY=sk-your-key-here
+HF_TOKEN=hf-your-token-here
+HF_MODEL=Qwen/Qwen2.5-7B-Instruct
+PORT=5000
+CLIENT_URL=http://localhost:5173
 ```
 
-> If no API key is provided, the system will use demo fallback analysis.
+> If no API key is provided, the system will use demo fallback responses.
 
 ### 5. Start the backend
 
 ```bash
 cd server
-node index.js
+npm run dev
 ```
 
-Server runs on `http://localhost:3001`.
+Server runs on `http://localhost:5000`.
 
 ### 6. Start the frontend
 
@@ -180,9 +162,7 @@ Server runs on `http://localhost:3001`.
 npm run dev
 ```
 
-Frontend runs on `http://localhost:5173`.
-
-The Vite dev server proxies `/api` requests to the backend.
+Frontend runs on `http://localhost:5174` (or 5173 if available).
 
 ---
 
@@ -190,16 +170,20 @@ The Vite dev server proxies `/api` requests to the backend.
 
 | Variable         | Required | Description                  |
 |------------------|----------|------------------------------|
-| `OPENAI_API_KEY` | Optional | OpenAI API key               |
-| `PORT`           | Optional | Backend port (default: 3001) |
+| `HF_TOKEN`       | Optional | Hugging Face API token       |
+| `HF_MODEL`       | Optional | Model ID (default: Qwen2.5-7B-Instruct) |
+| `PORT`           | Optional | Backend port (default: 5000) |
+| `CLIENT_URL`     | Optional | Client URL (CORS origin)     |
 
 ---
 
-## Deployment Notes
+## Usage
 
-- The frontend can be deployed to Vercel, Netlify, or any static host.
-- The backend should be deployed as a Node.js service (Railway, Render, Fly.io).
-- Update the API base URL in the frontend if not using the Vite proxy.
+1. Open the app and go to **Voice Qualification** in the sidebar
+2. Click "Start AI Qualification"
+3. Allow microphone permissions when prompted
+4. Speak naturally with the AI agent
+5. After the conversation completes, view the analysis, lead score, and next actions
 
 ---
 
@@ -211,6 +195,5 @@ The Vite dev server proxies `/api` requests to the backend.
 - Multi-language voice support
 - Real-time WebSocket call events
 - Consultant mobile app
-- Analytics and reporting dashboard
 - Multi-property support
 - A/B testing of qualification scripts
