@@ -5,9 +5,9 @@ services:
     name: white-collar-ai-backend
     env: node
     plan: starter
-    buildCommand: cd server && npm install
-    startCommand: cd server && node index.js
     rootDir: server
+    buildCommand: npm install
+    startCommand: node index.js
     envVars:
       - key: NODE_VERSION
         value: 20
@@ -17,11 +17,6 @@ services:
         value: Qwen/Qwen2.5-7B-Instruct
       - key: PORT
         value: 10000
-      - key: CLIENT_URL
-        fromService:
-          type: web
-          name: white-collar-ai-frontend
-          envVarKey: RENDER_EXTERNAL_URL
 
   # Frontend service
   - type: web
